@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.4
--- https://www.phpmyadmin.net/
+-- version 4.5.2
+-- http://www.phpmyadmin.net
 --
--- Client :  localhost:8889
--- Généré le :  Mar 17 Janvier 2017 à 10:53
--- Version du serveur :  5.6.33
--- Version de PHP :  7.0.12
+-- Client :  localhost
+-- Généré le :  Mar 17 Janvier 2017 à 12:20
+-- Version du serveur :  10.1.19-MariaDB
+-- Version de PHP :  7.0.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -23,19 +23,19 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Structure de la table `competences`
+-- Structure de la table `skill`
 --
 
-CREATE TABLE `competences` (
-  `id_competence` int(11) NOT NULL,
-  `nom` varchar(255) COLLATE utf8_bin NOT NULL
+CREATE TABLE `skill` (
+  `id_skill` int(11) NOT NULL,
+  `name` varchar(255) COLLATE utf8_bin NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Contenu de la table `competences`
+-- Contenu de la table `skill`
 --
 
-INSERT INTO `competences` (`id_competence`, `nom`) VALUES
+INSERT INTO `skill` (`id_skill`, `name`) VALUES
 (1, 'HTML5'),
 (2, 'CSS3'),
 (3, 'Javascript'),
@@ -58,22 +58,22 @@ INSERT INTO `competences` (`id_competence`, `nom`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `competences_eleves`
+-- Structure de la table `skill_student`
 --
 
-CREATE TABLE `competences_eleves` (
-  `id_competence` int(20) NOT NULL,
-  `id_eleve` int(20) NOT NULL
+CREATE TABLE `skill_student` (
+  `id_skill` int(20) NOT NULL,
+  `id_student` int(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `eleves`
+-- Structure de la table `student`
 --
 
-CREATE TABLE `eleves` (
-  `id_eleve` int(11) NOT NULL,
+CREATE TABLE `student` (
+  `id_student` int(11) NOT NULL,
   `firstname` varchar(255) COLLATE utf8_bin NOT NULL,
   `lastname` varchar(255) COLLATE utf8_bin NOT NULL,
   `birthDate` date NOT NULL,
@@ -82,7 +82,7 @@ CREATE TABLE `eleves` (
   `email` varchar(255) COLLATE utf8_bin NOT NULL,
   `emergencyContact` varchar(255) COLLATE utf8_bin NOT NULL,
   `github` varchar(255) COLLATE utf8_bin NOT NULL,
-  `linkedin` varchar(255) COLLATE utf8_bin NOT NULL,
+  `linkedIn` varchar(255) COLLATE utf8_bin NOT NULL,
   `personalProject` varchar(255) COLLATE utf8_bin NOT NULL,
   `photo` varchar(255) COLLATE utf8_bin NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
@@ -92,23 +92,23 @@ CREATE TABLE `eleves` (
 --
 
 --
--- Index pour la table `competences`
+-- Index pour la table `skill`
 --
-ALTER TABLE `competences`
-  ADD PRIMARY KEY (`id_competence`);
+ALTER TABLE `skill`
+  ADD PRIMARY KEY (`id_skill`);
 
 --
--- Index pour la table `competences_eleves`
+-- Index pour la table `skill_student`
 --
-ALTER TABLE `competences_eleves`
-  ADD PRIMARY KEY (`id_eleve`,`id_competence`),
-  ADD KEY `link_competence` (`id_competence`);
+ALTER TABLE `skill_student`
+  ADD PRIMARY KEY (`id_student`,`id_skill`),
+  ADD KEY `link_competence` (`id_skill`);
 
 --
--- Index pour la table `eleves`
+-- Index pour la table `student`
 --
-ALTER TABLE `eleves`
-  ADD PRIMARY KEY (`id_eleve`),
+ALTER TABLE `student`
+  ADD PRIMARY KEY (`id_student`),
   ADD UNIQUE KEY `phone` (`phone`),
   ADD UNIQUE KEY `email` (`email`);
 
@@ -117,25 +117,25 @@ ALTER TABLE `eleves`
 --
 
 --
--- AUTO_INCREMENT pour la table `competences`
+-- AUTO_INCREMENT pour la table `skill`
 --
-ALTER TABLE `competences`
-  MODIFY `id_competence` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+ALTER TABLE `skill`
+  MODIFY `id_skill` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 --
--- AUTO_INCREMENT pour la table `eleves`
+-- AUTO_INCREMENT pour la table `student`
 --
-ALTER TABLE `eleves`
-  MODIFY `id_eleve` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `student`
+  MODIFY `id_student` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- Contraintes pour les tables exportées
 --
 
 --
--- Contraintes pour la table `competences_eleves`
+-- Contraintes pour la table `skill_student`
 --
-ALTER TABLE `competences_eleves`
-  ADD CONSTRAINT `link_competence` FOREIGN KEY (`id_competence`) REFERENCES `competences` (`id_competence`) ON DELETE CASCADE,
-  ADD CONSTRAINT `link_eleve` FOREIGN KEY (`id_eleve`) REFERENCES `eleves` (`id_eleve`) ON DELETE CASCADE;
+ALTER TABLE `skill_student`
+  ADD CONSTRAINT `link_competence` FOREIGN KEY (`id_skill`) REFERENCES `skill` (`id_skill`) ON DELETE CASCADE,
+  ADD CONSTRAINT `link_eleve` FOREIGN KEY (`id_student`) REFERENCES `student` (`id_student`) ON DELETE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
