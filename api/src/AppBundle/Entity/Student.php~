@@ -398,4 +398,3 @@ class Student
         return $this->photo;
     }
 }
-

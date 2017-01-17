@@ -35,6 +35,20 @@ class user
      */
     private $password;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="firstname", type="string", length=255)
+     */
+    private $firstname;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="lastname", type="string", length=255)
+     */
+    private $lastname;
+
 
     /**
      * Get id
@@ -94,4 +108,3 @@ class user
         return $this->password;
     }
 }
-
