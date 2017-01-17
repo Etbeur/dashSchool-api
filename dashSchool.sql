@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.2
--- http://www.phpmyadmin.net
+-- version 4.6.4
+-- https://www.phpmyadmin.net/
 --
--- Client :  localhost
--- Généré le :  Mar 17 Janvier 2017 à 12:20
--- Version du serveur :  10.1.19-MariaDB
--- Version de PHP :  7.0.9
+-- Client :  localhost:8889
+-- Généré le :  Mar 17 Janvier 2017 à 17:50
+-- Version du serveur :  5.6.33
+-- Version de PHP :  7.0.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -27,44 +27,9 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `skill` (
-  `id_skill` int(11) NOT NULL,
-  `name` varchar(255) COLLATE utf8_bin NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
---
--- Contenu de la table `skill`
---
-
-INSERT INTO `skill` (`id_skill`, `name`) VALUES
-(1, 'HTML5'),
-(2, 'CSS3'),
-(3, 'Javascript'),
-(4, 'PHP'),
-(5, 'Angular2'),
-(6, 'Symfony3'),
-(7, 'React'),
-(8, 'AngularJS'),
-(9, 'Git'),
-(10, 'Developpement front-end'),
-(11, 'Developpement back-end'),
-(12, 'Photoshop'),
-(13, 'Illustrator'),
-(14, 'Ruby'),
-(15, 'Wordpress'),
-(16, 'Drupal'),
-(17, 'TypeScript'),
-(18, 'MySQL');
-
--- --------------------------------------------------------
-
---
--- Structure de la table `skill_student`
---
-
-CREATE TABLE `skill_student` (
-  `id_skill` int(20) NOT NULL,
-  `id_student` int(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  `id` int(11) NOT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -73,19 +38,31 @@ CREATE TABLE `skill_student` (
 --
 
 CREATE TABLE `student` (
-  `id_student` int(11) NOT NULL,
-  `firstname` varchar(255) COLLATE utf8_bin NOT NULL,
-  `lastname` varchar(255) COLLATE utf8_bin NOT NULL,
-  `birthDate` date NOT NULL,
-  `address` varchar(255) COLLATE utf8_bin NOT NULL,
-  `phone` varchar(15) COLLATE utf8_bin NOT NULL,
-  `email` varchar(255) COLLATE utf8_bin NOT NULL,
-  `emergencyContact` varchar(255) COLLATE utf8_bin NOT NULL,
-  `github` varchar(255) COLLATE utf8_bin NOT NULL,
-  `linkedIn` varchar(255) COLLATE utf8_bin NOT NULL,
-  `personalProject` varchar(255) COLLATE utf8_bin NOT NULL,
-  `photo` varchar(255) COLLATE utf8_bin NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  `id` int(11) NOT NULL,
+  `firstname` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `lastname` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `birthDate` datetime NOT NULL,
+  `address` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `phone` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `emergencyContact` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `github` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `linkedIn` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `personalProject` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `photo` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `user`
+--
+
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL,
+  `login` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Index pour les tables exportées
@@ -95,22 +72,22 @@ CREATE TABLE `student` (
 -- Index pour la table `skill`
 --
 ALTER TABLE `skill`
-  ADD PRIMARY KEY (`id_skill`);
-
---
--- Index pour la table `skill_student`
---
-ALTER TABLE `skill_student`
-  ADD PRIMARY KEY (`id_student`,`id_skill`),
-  ADD KEY `link_competence` (`id_skill`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `UNIQ_5E3DE4775E237E06` (`name`);
 
 --
 -- Index pour la table `student`
 --
 ALTER TABLE `student`
-  ADD PRIMARY KEY (`id_student`),
-  ADD UNIQUE KEY `phone` (`phone`),
-  ADD UNIQUE KEY `email` (`email`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `UNIQ_B723AF33E7927C74` (`email`);
+
+--
+-- Index pour la table `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `UNIQ_8D93D649AA08CB10` (`login`);
 
 --
 -- AUTO_INCREMENT pour les tables exportées
@@ -120,23 +97,17 @@ ALTER TABLE `student`
 -- AUTO_INCREMENT pour la table `skill`
 --
 ALTER TABLE `skill`
-  MODIFY `id_skill` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT pour la table `student`
 --
 ALTER TABLE `student`
-  MODIFY `id_student` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
--- Contraintes pour les tables exportées
+-- AUTO_INCREMENT pour la table `user`
 --
-
---
--- Contraintes pour la table `skill_student`
---
-ALTER TABLE `skill_student`
-  ADD CONSTRAINT `link_competence` FOREIGN KEY (`id_skill`) REFERENCES `skill` (`id_skill`) ON DELETE CASCADE,
-  ADD CONSTRAINT `link_eleve` FOREIGN KEY (`id_student`) REFERENCES `student` (`id_student`) ON DELETE CASCADE;
-
+ALTER TABLE `user`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
