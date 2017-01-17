@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Student
@@ -98,6 +99,20 @@ class Student
      * @ORM\Column(name="photo", type="string", length=255, nullable=true)
      */
     private $photo;
+
+    /**
+     *
+     * @var ArrayCollection skill $skills
+     * Owning Side
+     *
+     * @ORM\ManyToMany(targetEntity="skill", inversedBy="students")
+     *
+     * @ORM\JoinTable(name="skill_student",
+     *   joinColumns={@ORM\JoinColumn(name="student_id", referencedColumnName="id")},
+     *   inverseJoinColumns={@ORM\JoinColumn(name="skill_id", referencedColumnName="id")}
+     *     )
+     */
+    private $skills;
 
 
     /**
@@ -396,5 +411,46 @@ class Student
     public function getPhoto()
     {
         return $this->photo;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->skills = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add skill
+     *
+     * @param \AppBundle\Entity\skill $skill
+     *
+     * @return Student
+     */
+    public function addSkill(\AppBundle\Entity\skill $skill)
+    {
+        $this->skills[] = $skill;
+
+        return $this;
+    }
+
+    /**
+     * Remove skill
+     *
+     * @param \AppBundle\Entity\skill $skill
+     */
+    public function removeSkill(\AppBundle\Entity\skill $skill)
+    {
+        $this->skills->removeElement($skill);
+    }
+
+    /**
+     * Get skills
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSkills()
+    {
+        return $this->skills;
     }
 }

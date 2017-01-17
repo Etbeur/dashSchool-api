@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Student
@@ -98,6 +99,20 @@ class Student
      * @ORM\Column(name="photo", type="string", length=255, nullable=true)
      */
     private $photo;
+
+    /**
+     *
+     * @var ArrayCollection skill $skills
+     * Owning Side
+     *
+     * @ORM\ManyToMany(targetEntity="skill", inversedBy="students")
+     *
+     * @ORM\JoinTable(name="skill_student",
+     *   joinColumns={@ORM\JoinColumn(name="student_id", referencedColumnName="id")},
+     *   inverseJoinColumns={@ORM\JoinColumn(name="skill_id", referencedColumnName="id")}
+     *     )
+     */
+    private $skills;
 
 
     /**

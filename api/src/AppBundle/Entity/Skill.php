@@ -73,4 +73,45 @@ class Skill
     {
         return $this->name;
     }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->students = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add student
+     *
+     * @param \AppBundle\Entity\student $student
+     *
+     * @return Skill
+     */
+    public function addStudent(\AppBundle\Entity\student $student)
+    {
+        $this->students[] = $student;
+
+        return $this;
+    }
+
+    /**
+     * Remove student
+     *
+     * @param \AppBundle\Entity\student $student
+     */
+    public function removeStudent(\AppBundle\Entity\student $student)
+    {
+        $this->students->removeElement($student);
+    }
+
+    /**
+     * Get students
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getStudents()
+    {
+        return $this->students;
+    }
 }
