@@ -24,9 +24,26 @@ class Eleve
     public $personalProject;
     public $photo;
 
-    function __construct(int $id, String $firstname, String $lastname, \dateTime $birthDate,
-                        String $adress, String $phone, String $email, g )
-    {
+    function __construct
+    (
+        int $id, String $firstname, String $lastname, \dateTime $birthDate,
+        String $adress, String $phone, String $email, String $emergencyContact = null,
+        String $github = null, String $linkedIn = null ,
+        String $personnalProject = null, String $photo = null
+    )
 
+    {
+        $this->id = $id;
+        $this->firstname = $firstname;
+        $this->lastname = $lastname;
+        $this->birthDate = $birthDate;
+        $this->adress = $adress;
+        $this->phone = $phone;
+        $this->email = $email;
+        $this->emergencyContact = $emergencyContact;
+        $this->github = $github;
+        $this->likedIn = $linkedIn;
+        $this->personalProject = $personnalProject;
+        $this->photo = $photo;
     }
 }
