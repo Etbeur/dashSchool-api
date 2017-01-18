@@ -110,29 +110,6 @@ class Student
         return $this->id;
     }
 
-    /**
-     * Set idStudent
-     *
-     * @param integer $idStudent
-     *
-     * @return Student
-     */
-    public function setIdStudent($idStudent)
-    {
-        $this->idStudent = $idStudent;
-
-        return $this;
-    }
-
-    /**
-     * Get idStudent
-     *
-     * @return int
-     */
-    public function getIdStudent()
-    {
-        return $this->idStudent;
-    }
 
     /**
      * Set firstname
