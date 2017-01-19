@@ -26,16 +26,16 @@ class DefaultController extends Controller
         $dataForm = file_get_contents("php://input");
         $data = json_decode($dataForm);
 
-//      On attribut le login et le password récupérés au $_POST pour faire les vérification
+//      On attribue le login et le password récupéré au $_POST pour faire les vérifications
         $_POST['login'] = $data->login;
         $_POST['password'] = $data->password;
 
-//      Si les valeurs existe
+//      Si les valeurs existent
         if (isset($_POST['login']) && isset($_POST['password'])) {
             $login = $_POST['login'];
             $password = $_POST['password'];
 
-//          Récupération des données correspondant au login de connexion si correspondance
+//          Récupération des données correspondants au login de connexion si correspondance
             $identifiants = $this->getDoctrine()
                 ->getRepository('AppBundle:user')
                 ->findAll();
@@ -91,6 +91,8 @@ class DefaultController extends Controller
 
     public function testAction(Request $request) {
 
+//        On créé un nouveau Student
+
         $student = new Student();
         $student->setFirstname("paul");
         $student->setLastname("dupont");
@@ -99,6 +101,7 @@ class DefaultController extends Controller
         $student->setPhone("060610630606");
         $student->setEmail("paula.dupont@gmail.com");
 
+//        On récupère dans la DB les données que l'on veut
 
         $skillStudent = $this->getDoctrine()
             ->getRepository('AppBundle:Skill')
@@ -114,13 +117,16 @@ class DefaultController extends Controller
             );
 
         dump($skillStudent);
+
+//        On ajoute au nouveau student les compétences recupérées dans la DB
         $student->addSkill($skillStudent);
 
-
+//       On envoie les données à la DB
         $this->getDoctrine()->getEntityManager()->persist($student);
         $this->getDoctrine()->getEntityManager()->flush();
 
-        return new Response("ca a marché");
+
+        return new Response("Test OK");
 
     }
 
