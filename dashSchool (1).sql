@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.4
--- https://www.phpmyadmin.net/
+-- version 4.5.2
+-- http://www.phpmyadmin.net
 --
--- Client :  localhost:8889
--- Généré le :  Mer 18 Janvier 2017 à 00:19
--- Version du serveur :  5.6.33
--- Version de PHP :  7.0.12
+-- Client :  localhost
+-- Généré le :  Jeu 19 Janvier 2017 à 15:49
+-- Version du serveur :  10.1.19-MariaDB
+-- Version de PHP :  7.0.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -54,6 +54,7 @@ INSERT INTO `skill` (`id`, `name`) VALUES
 (9, 'React'),
 (17, 'Ruby'),
 (7, 'Symfony3'),
+(21, 'test'),
 (10, 'TypeScript'),
 (15, 'Wordpress');
 
@@ -67,6 +68,14 @@ CREATE TABLE `skill_student` (
   `student_id` int(11) NOT NULL,
   `skill_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Contenu de la table `skill_student`
+--
+
+INSERT INTO `skill_student` (`student_id`, `skill_id`) VALUES
+(5, 4),
+(6, 18);
 
 -- --------------------------------------------------------
 
@@ -94,7 +103,9 @@ CREATE TABLE `student` (
 --
 
 INSERT INTO `student` (`id`, `firstname`, `lastname`, `birthDate`, `address`, `phone`, `email`, `emergencyContact`, `github`, `linkedIn`, `personalProject`, `photo`) VALUES
-(1, 'solenn', 'baer', '1989-07-04 00:00:00', 'impasse des ports 42840 MONTAGNY', '0669629615', 'solenn.baer@gmail.com', NULL, NULL, NULL, NULL, NULL);
+(1, 'solenn', 'baer', '1989-07-04 00:00:00', 'impasse des ports 42840 MONTAGNY', '0669629615', 'solenn.baer@gmail.com', NULL, NULL, NULL, NULL, NULL),
+(5, 'paul', 'dupont', '1968-01-19 14:37:10', 'Rue du commandant Charcot', '0606060606', 'paul.dupont@gmail.com', NULL, NULL, NULL, NULL, NULL),
+(6, 'paul', 'dupont', '1968-01-19 14:38:30', '3Rue du commandant Charcot', '06060630606', 'paulo.dupont@gmail.com', NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -158,12 +169,12 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT pour la table `skill`
 --
 ALTER TABLE `skill`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 --
 -- AUTO_INCREMENT pour la table `student`
 --
 ALTER TABLE `student`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT pour la table `user`
 --
