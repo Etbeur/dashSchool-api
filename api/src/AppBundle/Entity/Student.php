@@ -105,7 +105,7 @@ class Student
      * @var ArrayCollection skill $skills
      * Owning Side
      *
-     * @ORM\ManyToMany(targetEntity="skill", inversedBy="students")
+     * @ORM\ManyToMany(targetEntity="skill", inversedBy="students",cascade={"persist"})
      *
      * @ORM\JoinTable(name="skill_student",
      *   joinColumns={@ORM\JoinColumn(name="student_id", referencedColumnName="id")},
