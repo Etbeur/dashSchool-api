@@ -57,7 +57,7 @@ class DefaultController extends Controller
                         'login' => $identifiant->getLogin(),
                         'id' => $identifiant->getId(),
                         'firstname' => $identifiant->getFirstname(),
-                        'lastname' => $identifiant->getlastname(),
+                        'lastname' => $identifiant->getlastname()
                     ];
                 }
                 else
