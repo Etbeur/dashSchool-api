@@ -2,6 +2,8 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Skill;
+use AppBundle\Entity\Student;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,4 +39,37 @@ class DefaultController extends Controller
     }
 //        $test = array('login'=> 'admin', 'password' => "admin");
 //        return new JsonResponse($test);
+
+
+//    /**
+//     * @Route("/", name="homepage")
+//     */
+//
+//    public function testAction(Request $request) {
+//
+//        $student = new Student();
+//        $student->setFirstname("paul");
+//        $student->setLastname("dupont");
+//        $student->setBirthDate(new \DateTime(1995-07-20));
+//        $student->setAddress("Rue du commandant Charcot");
+//        $student->setPhone("0606060606");
+//        $student->setEmail("paul.dupont@gmail.com");
+//
+//
+//        $skill = new Skill();
+//        $skill->setName("test");
+//
+//
+//
+//        $student->addSkill($skill);
+//
+//
+//        $this->getDoctrine()->getEntityManager()->persist($student);
+//        $this->getDoctrine()->getEntityManager()->flush();
+//
+//        return new Response("ca a marché");
+//
+//    }
+
+
 }
