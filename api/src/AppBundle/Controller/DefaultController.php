@@ -64,9 +64,7 @@ class DefaultController extends Controller
                 {
                     $false = array
                     (
-                        'mauvaise combinaison' => "log ou mdp incorrect",
-                        'login' => $login,
-                        'mdp' => $password
+                        'responseServer' => "utilisateur non reconnu",
                     );
                     return new JsonResponse($false);
                 }
