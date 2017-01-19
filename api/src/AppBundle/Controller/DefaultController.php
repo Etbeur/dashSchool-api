@@ -41,7 +41,7 @@ class DefaultController extends Controller
                 ->findAll();
             /* @var $identifiant user */
 
-//          Si indentifiants n'existe pas dans la table
+//          Si identifiants n'existent pas dans la table
             if (!$identifiants) {
                 throw $this->createNotFoundException(
                     'No login found for ' . $identifiants
@@ -52,12 +52,24 @@ class DefaultController extends Controller
             $infosUser = [];
             foreach ($identifiants as $identifiant) {
                 if ($identifiant->getLogin() == $login & $identifiant->getPassword() == $password)
+                {
                     $infosUser = [
                         'login' => $identifiant->getLogin(),
                         'id' => $identifiant->getId(),
                         'firstname' => $identifiant->getFirstname(),
                         'lastname' => $identifiant->getlastname(),
                     ];
+                }
+                else
+                {
+                    $false = array
+                    (
+                        'mauvaise combinaison' => "log ou mdp incorrect",
+                        'login' => $login,
+                        'mdp' => $password
+                    );
+                    return new JsonResponse($false);
+                }
             }
 
             return new JsonResponse($infosUser);
@@ -75,34 +87,85 @@ class DefaultController extends Controller
 //        return new JsonResponse($test);
 
 
-//    /**
-//     * @Route("/", name="homepage")
-//     */
-//
-//    public function testAction(Request $request) {
-//
-//        $student = new Student();
-//        $student->setFirstname("paul");
-//        $student->setLastname("dupont");
-//        $student->setBirthDate(new \DateTime(1995-07-20));
-//        $student->setAddress("Rue du commandant Charcot");
-//        $student->setPhone("0606060606");
-//        $student->setEmail("paul.dupont@gmail.com");
-//
-//
-//        $skill = new Skill();
-//        $skill->setName("test");
-//
-//
-//
-//        $student->addSkill($skill);
-//
-//
-//        $this->getDoctrine()->getEntityManager()->persist($student);
-//        $this->getDoctrine()->getEntityManager()->flush();
-//
-//        return new Response("ca a marché");
-//
-//    }
+    /**
+     * @Route("/", name="homepage")
+     */
+
+    public function testAction(Request $request) {
+
+        $student = new Student();
+        $student->setFirstname("paul");
+        $student->setLastname("dupont");
+        $student->setBirthDate(new \DateTime(1995-07-20));
+        $student->setAddress("8Rue du commandant Charcot");
+        $student->setPhone("060610630606");
+        $student->setEmail("paula.dupont@gmail.com");
+
+
+        $skillStudent = $this->getDoctrine()
+            ->getRepository('AppBundle:Skill')
+            ->findBy(
+                array('name' => "Python"),
+                array("name" => "Django"),
+                array("name" => "Drupal"),
+                array("name" => "HTML5"),
+                array("name" => "CSS3"),
+                array("name" => "MySQL"),
+                array("name" => "Developpement Back-End"),
+                array("name" => "Javascript")
+            );
+
+        dump($skillStudent);
+        $student->addSkill($skillStudent);
+
+
+        $this->getDoctrine()->getEntityManager()->persist($student);
+        $this->getDoctrine()->getEntityManager()->flush();
+
+        return new Response("ca a marché");
+
+    }
+
+    /**
+     * @Route("/testLog", name="loginPage")
+     */
+
+    public function testLoginAction(Request $request)
+    {
+
+//          Récupération des données correspondant au login de connexion si correspondance
+            $identifiants = $this->getDoctrine()
+                ->getRepository('AppBundle:user')
+                ->findAll();
+            /* @var $identifiant user */
+
+//          Si identifiants n'existent pas dans la table
+            if (!$identifiants) {
+                throw $this->createNotFoundException(
+                    'No login found for ' . $identifiants
+                );
+            }
+
+//          On crée un tableau pour stocker les infos de la table
+            $infosUser = [];
+            foreach ($identifiants as $identifiant) {
+                    $infosUser = [
+                        'login' => $identifiant->getLogin(),
+                        'id' => $identifiant->getId(),
+                        'firstname' => $identifiant->getFirstname(),
+                        'lastname' => $identifiant->getLastname()
+                    ];
+            }
+
+//          Vu twig pour test
+            return $this->render('default/test.html.twig', [
+                'name' => new JsonResponse($infosUser)
+            ]);
+
+    }
+//        $test = array('login'=> 'admin', 'password' => "admin");
+//        return new JsonResponse($test);
+
+
 
 }
