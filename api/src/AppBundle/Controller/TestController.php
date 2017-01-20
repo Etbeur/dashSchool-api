@@ -23,7 +23,8 @@ class TestController extends Controller
      *
      */
 
-    public function defaultAction (Request $request) {
+    public function defaultAction(Request $request)
+    {
         return new Response("Bienvenue");
     }
 
@@ -32,13 +33,14 @@ class TestController extends Controller
      * @Route("/testLiaison", name="testTableDeLiaison")
      */
 
-    public function testAction(Request $request) {
+    public function testAction(Request $request)
+    {
 
 //      On créé un nouveau Student
         $student = new Student();
         $student->setFirstname("paul");
         $student->setLastname("dupont");
-        $student->setBirthDate(new \DateTime(1995-07-20));
+        $student->setBirthDate(new \DateTime(1995 - 07 - 20));
         $student->setAddress("8Rue du commandant Charcot");
         $student->setPhone("060610630606");
         $student->setEmail("paula.dupont@gmail.com");
@@ -110,5 +112,47 @@ class TestController extends Controller
 //        $test = array('login'=> 'admin', 'password' => "admin");
 //        return new JsonResponse($test);
 
+    /**
+     * @Route("/studentFormTest/{id}", name="studentFormTest", defaults = {"id" = null})
+     */
 
+    public function formAction(Request $request)
+    {
+
+//        On récupère le GET envoyé dans l'url
+        $id = $request->get('id');
+
+        if ($id != null) {
+//        On récupère le repository Student
+            $dataStudent = $this->getDoctrine()
+                ->getRepository('AppBundle:Student')
+                ->findOneBy(array('id' => $id));
+
+//        On récupère les skills associés à l'étudiant
+            $infoSkill = $dataStudent->getSkills();
+            $infoStudent =
+                [
+                    'firstname' => $dataStudent->getFirstname(),
+                    'lastname' => $dataStudent->getLastname(),
+                    'birthDate' => $dataStudent->getBirthDate(),
+                    'address' => $dataStudent->getAddress(),
+                    'phone' => $dataStudent->getPhone(),
+                    'email' => $dataStudent->getEmail(),
+                    'emergencyContact' => $dataStudent->getEmergencyContact(),
+                    'github' => $dataStudent->getGithub(),
+                    'linkedIn' => $dataStudent->getLinkedIn(),
+                    'personalProject' => $dataStudent->getPersonalProject(),
+                    'photo' => $dataStudent->getPhoto(),
+                    'skills' => $infoSkill[0]->getName()
+                ];
+
+            //     Vu twig pour test
+            return $this->render('default/test.html.twig', [
+                'name' => new JsonResponse($infoStudent)
+            ]);
+        } else {
+            return new Response('erreur');
+        }
+    }
 }
+
