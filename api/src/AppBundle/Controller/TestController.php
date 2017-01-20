@@ -28,15 +28,13 @@ class TestController extends Controller
     }
 
 
-
     /**
      * @Route("/testLiaison", name="testTableDeLiaison")
      */
 
     public function testAction(Request $request) {
 
-//        On créé un nouveau Student
-
+//      On créé un nouveau Student
         $student = new Student();
         $student->setFirstname("paul");
         $student->setLastname("dupont");
@@ -45,8 +43,7 @@ class TestController extends Controller
         $student->setPhone("060610630606");
         $student->setEmail("paula.dupont@gmail.com");
 
-//        On récupère dans la DB les données que l'on veut
-
+//      On récupère dans la DB les données que l'on veut
         $skillStudent = $this->getDoctrine()
             ->getRepository('AppBundle:Skill')
             ->findBy(
@@ -62,18 +59,15 @@ class TestController extends Controller
 
         dump($skillStudent);
 
-//        On ajoute au nouveau student les compétences recupérées dans la DB
+//      On ajoute au nouveau student les compétences recupérées dans la DB
         $student->addSkill($skillStudent);
 
-//       On envoie les données à la DB
+//      On envoie les données à la DB
         $this->getDoctrine()->getEntityManager()->persist($student);
         $this->getDoctrine()->getEntityManager()->flush();
 
-
         return new Response("Test OK");
-
     }
-
 
 
     /**
@@ -83,20 +77,20 @@ class TestController extends Controller
     public function testLoginAction(Request $request)
     {
 
-//          Récupération des données correspondant au login de connexion si correspondance
+//      Récupération des données correspondant au login de connexion si correspondance
         $identifiants = $this->getDoctrine()
             ->getRepository('AppBundle:user')
             ->findAll();
         /* @var $identifiant user */
 
-//          Si identifiants n'existent pas dans la table
+//      Si identifiants n'existent pas dans la table
         if (!$identifiants) {
             throw $this->createNotFoundException(
                 'No login found for ' . $identifiants
             );
         }
 
-//          On crée un tableau pour stocker les infos de la table
+//      On crée un tableau pour stocker les infos de la table
         $infosUser = [];
         foreach ($identifiants as $identifiant) {
             $infosUser = [
@@ -107,7 +101,7 @@ class TestController extends Controller
             ];
         }
 
-//          Vu twig pour test
+//      Vu twig pour test
         return $this->render('default/test.html.twig', [
             'name' => new JsonResponse($infosUser)
         ]);
@@ -115,7 +109,6 @@ class TestController extends Controller
     }
 //        $test = array('login'=> 'admin', 'password' => "admin");
 //        return new JsonResponse($test);
-
 
 
 }
