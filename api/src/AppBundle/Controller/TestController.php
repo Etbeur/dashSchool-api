@@ -1,5 +1,6 @@
 <?php
 namespace AppBundle\Controller;
+
 use AppBundle\AppBundle;
 use AppBundle\Entity\user;
 use AppBundle\Entity\Skill;
@@ -9,19 +10,25 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
+
+
 class TestController extends Controller
 {
     /**
      * @Route("/", name="homepage")
      *
      */
+
     public function defaultAction(Request $request)
     {
         return new Response("Bienvenue");
     }
+
+
     /**
      * @Route("/testLiaison", name="testTableDeLiaison")
      */
+
     public function testAction(Request $request)
     {
 //      On créé un nouveau Student
@@ -53,9 +60,11 @@ class TestController extends Controller
         $this->getDoctrine()->getEntityManager()->flush();
         return new Response("Test OK");
     }
+
     /**
      * @Route("/testLog", name="loginPage")
      */
+
     public function testLoginAction(Request $request)
     {
 //      Récupération des données correspondant au login de connexion si correspondance

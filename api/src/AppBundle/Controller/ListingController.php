@@ -6,8 +6,6 @@ namespace AppBundle\Controller;
 use AppBundle\AppBundle;
 use AppBundle\Entity\user;
 
-use AppBundle\Entity\Skill;
-use AppBundle\Entity\Student;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,11 +13,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 
-
 class ListingController extends Controller
 {
 
-
+//        Récupération du listing des élèves
     /**
      * @Route("/listing", name="listing")
      *
@@ -27,33 +24,34 @@ class ListingController extends Controller
 
     public function listingAction(Request $request)
     {
-        // On récupère l'EntityManager
-        $em = $this->getDoctrine()
-            ->getManager();
 
-
-//        Récupération du listing des élèves
+//        Récuperation de toutes les infos de la table "student"
 
         $dataStudent = $this->getDoctrine()
             ->getRepository('AppBundle:Student')
             ->findAll();
 
+//        Récupération des infos pour chaque élève -
 
+//      On créé un tab vide dans lequel sera pushé chaque élève
 
         $infoStudent = [];
 
+
+//      On prend les infos récupérées de ta DB pour les séparer élève par élève
+
         foreach ($dataStudent as $student) {
 
-//          Pour chaque élève on récupère les infos et on les push dans le tableau qui sera envoyé en JSON
+//          On récupère dans la table de liaison les "skill" associées à l'élève en cours et on les ush dans un tab pour pouvoir les renvoyer en jSON au front
 
             $infoSkill = $student->getSkills();
-
-            foreach ($infoSkill as $skills){
-                $test = $skills->getName();
-//                dump($test);
+            $skills = [];
+            for ($i = 0; $i < count($infoSkill); $i++) {
+                $test = $infoSkill[$i]->getName();
+                array_push($skills, $test);
             }
 
-
+//          On définit les données que l'on va renvoyer en JSON au front
 
             $infoStudent[] = [
                 'id' => $student->getId(),
@@ -68,16 +66,11 @@ class ListingController extends Controller
                 'LinkedIn' => $student->getLinkedIn(),
                 'PersonalProject' => $student->getPersonalProject(),
                 'photo' => $student->getPhoto(),
-                'skill'=>$test
+                'skill' => $skills
             ];
-
         }
 
-        //      Vu twig pour test
-        return $this->render('default/test.html.twig', [
-            'name' => new JsonResponse($infoStudent)
-        ]);
-
-
+//        On renvoie les données sous forme de JSON pour qu'elel soient récupérées par le front
+        return JsonResponse($infoStudent);
     }
 }
