@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 
+
 class ListingController extends Controller
 {
 
@@ -26,6 +27,10 @@ class ListingController extends Controller
 
     public function listingAction(Request $request)
     {
+        // On récupère l'EntityManager
+        $em = $this->getDoctrine()
+            ->getManager();
+
 
 //        Récupération du listing des élèves
 
@@ -36,9 +41,19 @@ class ListingController extends Controller
 
 
         $infoStudent = [];
+
         foreach ($dataStudent as $student) {
 
 //          Pour chaque élève on récupère les infos et on les push dans le tableau qui sera envoyé en JSON
+
+            $infoSkill = $student->getSkills();
+
+            foreach ($infoSkill as $skills){
+                $test = $skills->getName();
+//                dump($test);
+            }
+
+
 
             $infoStudent[] = [
                 'id' => $student->getId(),
@@ -52,12 +67,16 @@ class ListingController extends Controller
                 'Github' => $student->getGithub(),
                 'LinkedIn' => $student->getLinkedIn(),
                 'PersonalProject' => $student->getPersonalProject(),
-                'photo' => $student->getPhoto()
-                ];
+                'photo' => $student->getPhoto(),
+                'skill'=>$test
+            ];
+
         }
-//        On renvoie le tableau JSON pour le front
-        
-        return new JsonResponse($infoStudent);
+
+        //      Vu twig pour test
+        return $this->render('default/test.html.twig', [
+            'name' => new JsonResponse($infoStudent)
+        ]);
 
 
     }
