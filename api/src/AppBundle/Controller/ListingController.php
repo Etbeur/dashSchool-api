@@ -55,11 +55,9 @@ class ListingController extends Controller
                 'photo' => $student->getPhoto()
                 ];
         }
-
-        //      Vu twig pour test
-        return $this->render('default/test.html.twig', [
-            'name' => new JsonResponse($infoStudent)
-        ]);
+//        On renvoie le tableau JSON pour le front
+        
+        return new JsonResponse($infoStudent);
 
 
     }
