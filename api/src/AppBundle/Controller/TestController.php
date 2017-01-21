@@ -95,13 +95,15 @@ class TestController extends Controller
     }
 //        $test = array('login'=> 'admin', 'password' => "admin");
 //        return new JsonResponse($test);
+
     /**
-     * @Route("/studentFormTest/{id}", name="studentFormTest", defaults = {"id" = null})
+     * @Route("/student/{id}", name="student", defaults={"id"=null})
      */
     public function formAction(Request $request)
     {
 ///        On récupère le GET envoyé dans l'url
         $id = $request->get('id');
+
         if ($id != null) {
 //              On récupère le repository Student
             $dataStudent = $this->getDoctrine()
@@ -143,5 +145,53 @@ class TestController extends Controller
         }else{
             return new Response('erreur');
         }
+    }
+
+    /**
+     * @Route("/listingtest", name="listingtest")
+     *
+     */
+    public function listingAction(Request $request)
+    {
+//        Récuperation de toutes les infos de la table "student"
+        $dataStudent = $this->getDoctrine()
+            ->getRepository('AppBundle:Student')
+            ->findAll();
+
+//        Récupération des infos pour chaque élève -
+
+//      On créé un tab vide dans lequel sera pushé chaque élève
+        $infoStudent = [];
+
+//      On prend les infos récupérées de la DB pour les séparer élève par élève
+        foreach ($dataStudent as $student) {
+
+//          On récupère dans la table de liaison les "skill" associées à l'élève en cours et on les push dans un tab pour pouvoir les renvoyer en jSON au front
+            $infoSkill = $student->getSkills();
+            $skills = [];
+            for ($i = 0; $i < count($infoSkill); $i++) {
+                $test = $infoSkill[$i]->getName();
+                array_push($skills, $test);
+            }
+
+//          On définit les données que l'on va renvoyer en JSON au front
+            $infoStudent[] = [
+                'id' => $student->getId(),
+                'firstname' => $student->getFirstname(),
+                'lastname' => $student->getLastname(),
+                'birthDate' => $student->getBirthDate(),
+                'Address' => $student->getAddress(),
+                'Phone' => $student->getPhone(),
+                'EMail' => $student->getEmail(),
+                'EmergencyContect' => $student->getEmergencyContact(),
+                'Github' => $student->getGithub(),
+                'LinkedIn' => $student->getLinkedIn(),
+                'PersonalProject' => $student->getPersonalProject(),
+                'photo' => $student->getPhoto(),
+                'skill' => $skills
+            ];
+        }
+//        On renvoie les données sous forme de JSON pour qu'elles soient récupérées par le front
+        return new JsonResponse($infoStudent);
     }
 }

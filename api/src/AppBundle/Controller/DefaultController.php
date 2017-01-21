@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/login", name="loginPage")
+     * @Route("/login", name="login")
      */
     public function loginAction(Request $request)
     {
@@ -69,7 +69,56 @@ class DefaultController extends Controller
 
 
     /**
-     * @Route("listing/detailStudent/{id}", name="detailStudent", defaults = {"id" = null})
+     * @Route("/listing", name="listing")
+     *
+     */
+    public function listingAction(Request $request)
+    {
+//        Récuperation de toutes les infos de la table "student"
+        $dataStudent = $this->getDoctrine()
+            ->getRepository('AppBundle:Student')
+            ->findAll();
+
+//        Récupération des infos pour chaque élève -
+
+//      On créé un tab vide dans lequel sera pushé chaque élève
+        $infoStudent = [];
+
+//      On prend les infos récupérées de la DB pour les séparer élève par élève
+        foreach ($dataStudent as $student) {
+
+//          On récupère dans la table de liaison les "skill" associées à l'élève en cours et on les push dans un tab pour pouvoir les renvoyer en jSON au front
+            $infoSkill = $student->getSkills();
+            $skills = [];
+            for ($i = 0; $i < count($infoSkill); $i++) {
+                $test = $infoSkill[$i]->getName();
+                array_push($skills, $test);
+            }
+
+//          On définit les données que l'on va renvoyer en JSON au front
+            $infoStudent[] = [
+                'id' => $student->getId(),
+                'firstname' => $student->getFirstname(),
+                'lastname' => $student->getLastname(),
+                'birthDate' => $student->getBirthDate(),
+                'Address' => $student->getAddress(),
+                'Phone' => $student->getPhone(),
+                'EMail' => $student->getEmail(),
+                'EmergencyContect' => $student->getEmergencyContact(),
+                'Github' => $student->getGithub(),
+                'LinkedIn' => $student->getLinkedIn(),
+                'PersonalProject' => $student->getPersonalProject(),
+                'photo' => $student->getPhoto(),
+                'skill' => $skills
+            ];
+        }
+//        On renvoie les données sous forme de JSON pour qu'elles soient récupérées par le front
+        return new JsonResponse($infoStudent);
+    }
+
+
+    /**
+     * @Route("listing/detailStudent/{id}", name="listing/detailsStudent", defaults = {"id" = null})
      */
     public function formAction(Request $request)
     {
@@ -112,7 +161,8 @@ class DefaultController extends Controller
 //            On retourne sous forme de JSON le tableau avec toutes les informations
             return new JsonResponse($infoStudent);
         }else{
-            return new Response('erreur');
+            $false = array('aucun ID passe en parametre' => 'Pas deleve selectionne');
+            return new JsonResponse($false);
         }
     }
 }
