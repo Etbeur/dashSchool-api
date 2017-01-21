@@ -100,15 +100,25 @@ class TestController extends Controller
      */
     public function formAction(Request $request)
     {
-//        On récupère le GET envoyé dans l'url
+///        On récupère le GET envoyé dans l'url
         $id = $request->get('id');
         if ($id != null) {
-//        On récupère le repository Student
+//              On récupère le repository Student
             $dataStudent = $this->getDoctrine()
                 ->getRepository('AppBundle:Student')
                 ->findOneBy(array('id' => $id));
-//        On récupère les skills associés à l'étudiant
+
+//              On récupère les skills associés à l'étudiant
             $infoSkill = $dataStudent->getSkills();
+
+//            Création d'un tableau dans lequel on mettra chaque compétence au fur et à mesure
+            $totalSkills = [];
+            for($i = 0; $i < count($infoSkill); $i ++){
+                $oneSkill = $infoSkill[$i]->getName();
+                array_push($totalSkills, $oneSkill);
+            }
+
+//            On crée la fiche élève avec tous les renseignements le concernant
             $infoStudent =
                 [
                     'firstname' => $dataStudent->getFirstname(),
@@ -122,13 +132,15 @@ class TestController extends Controller
                     'linkedIn' => $dataStudent->getLinkedIn(),
                     'personalProject' => $dataStudent->getPersonalProject(),
                     'photo' => $dataStudent->getPhoto(),
-                    'skills' => $infoSkill[0]->getName()
+                    'skills' => $totalSkills
                 ];
+
             //     Vu twig pour test
             return $this->render('default/test.html.twig', [
                 'name' => new JsonResponse($infoStudent)
             ]);
-        } else {
+
+        }else{
             return new Response('erreur');
         }
     }
