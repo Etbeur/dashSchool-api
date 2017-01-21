@@ -62,7 +62,7 @@ class DefaultController extends Controller
         }
     }
     /**
-     * @Route("/detailStudent/{id}", name="detailStudent", defaults = {"id" = null})
+     * @Route("listing/detailStudent/{id}", name="detailStudent", defaults = {"id" = null})
      */
     public function formAction(Request $request)
     {
