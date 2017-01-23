@@ -30,7 +30,7 @@ class modifyController extends Controller
         $em = $this->getDoctrine()->getManager();
 
 //        On récupère le repository Student
-        $dataStudent = $em->getRepository('AppBundle:Student')->findOneBy(array('id' => $id));
+        $student = $em->getRepository('AppBundle:Student')->findOneBy(array('id' => $id));
 
 //        On associe chaque variable aux données envoyées par le form
         function missingInput($input){
@@ -51,8 +51,7 @@ class modifyController extends Controller
         $photo = (isset($data->photo)) ? $data->photo : null;
         $newSkills = (isset($data->skills)) ? $data->skills : null;
 
-//      On cree un nouvel eleve
-        $student = new Student();
+//      On modifie l'eleve avec les données fournies
         $student->setFirstname($firstname);
         $student->setLastname($lastname);
         $student->setGender($gender);
@@ -68,5 +67,7 @@ class modifyController extends Controller
         foreach ($newSkills as $skillStudent){
             $student->addSkill($skillStudent);
         }
+        
+        $em->flush();
     }
 }
