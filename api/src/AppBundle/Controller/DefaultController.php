@@ -85,6 +85,7 @@ class DefaultController extends Controller
         $infoStudent = [];
 
 //      On prend les infos récupérées de la DB pour les séparer élève par élève
+//        On renvoie les données sous forme de JSON pour qu'elles soient récupérées par le front
         foreach ($dataStudent as $student) {
 
 //          On récupère dans la table de liaison les "skill" associées à l'élève en cours et on les push dans un tab pour pouvoir les renvoyer en jSON au front
@@ -100,6 +101,7 @@ class DefaultController extends Controller
                 'id' => $student->getId(),
                 'firstname' => $student->getFirstname(),
                 'lastname' => $student->getLastname(),
+                'gender' => $student ->getGender(),
                 'birthDate' => $student->getBirthDate(),
                 'address' => $student->getAddress(),
                 'phone' => $student->getPhone(),
@@ -112,7 +114,6 @@ class DefaultController extends Controller
                 'skill' => $skills
             ];
         }
-//        On renvoie les données sous forme de JSON pour qu'elles soient récupérées par le front
         return new JsonResponse($infoStudent);
     }
 
@@ -147,6 +148,7 @@ class DefaultController extends Controller
                     'id' => $dataStudent->getId(),
                     'firstname' => $dataStudent->getFirstname(),
                     'lastname' => $dataStudent->getLastname(),
+                    'gender' => $dataStudent->getGender(),
                     'birthDate' => $dataStudent->getBirthDate(),
                     'address' => $dataStudent->getAddress(),
                     'phone' => $dataStudent->getPhone(),

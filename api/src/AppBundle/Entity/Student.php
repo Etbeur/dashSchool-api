@@ -38,6 +38,13 @@ class Student
     private $lastname;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="gender", type="string", length=255)
+     */
+    private $gender;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="birthDate", type="datetime")
@@ -429,5 +436,29 @@ class Student
     public function getSkills()
     {
         return $this->skills;
+    }
+
+    /**
+     * Set gender
+     *
+     * @param string $gender
+     *
+     * @return Student
+     */
+    public function setGender($gender)
+    {
+        $this->gender = $gender;
+
+        return $this;
+    }
+
+    /**
+     * Get gender
+     *
+     * @return string
+     */
+    public function getGender()
+    {
+        return $this->gender;
     }
 }
