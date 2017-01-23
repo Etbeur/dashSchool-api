@@ -18,11 +18,11 @@ class addController extends Controller
      */
     public function addStudentAction(Request $request)
     {
-//        Récupération du Json envoyé par le formulaire, decode pour pouvoir le lire
+        //        Récupération du Json envoyé par le formulaire, decode pour pouvoir le lire
         $dataForm = file_get_contents("php://input");
         $data = json_decode($dataForm);
 
-//        On associe chaque variable aux données envoyées par le form
+        //        On associe chaque variable aux données envoyées par le form
         function missingInput($input){
             new JsonResponse("Le champ ".$input." est manquant");
         }
@@ -36,12 +36,12 @@ class addController extends Controller
         $email = (isset($data->email)) ? $data->email : missingInput('email');;
         $emergencyContact = (isset($data->emergencyContact)) ? $data->emergencyContact : null;
         $github = (isset($data->github)) ? $data->github : null;
-        $linkedIn = (isset($data->linkedIn)) ? $data->linkedIn : null;
+        $linkedIn = (isset($data->linkedin)) ? $data->linkedin : null;
         $personalProject = (isset($data->personalProject)) ? $data->personalProject : null;
         $photo = (isset($data->photo)) ? $data->photo : null;
         $newSkills = (isset($data->skills)) ? $data->skills : null;
 
-//      On cree un nouvel eleve
+        //      On cree un nouvel eleve
         $student = new Student();
         $student->setFirstname($firstname);
         $student->setLastname($lastname);
@@ -59,13 +59,19 @@ class addController extends Controller
             $student->addSkill($skillStudent);
         }
 
-//        On récupère l'Entity manager
+        //        On récupère l'Entity manager
         $em = $this->getDoctrine()->getManager();
 
         $em->persist($student);
         $em->flush();
 
+        if($student)
+        {
+            return new JsonResponse(array("creation ok" => "le nouvel eleve a bien ete cree"));
+        } else {
+            return new JsonResponse(array("erreur creation" => "Erreur de creation"));
+        }
+
 
     }
-
 }

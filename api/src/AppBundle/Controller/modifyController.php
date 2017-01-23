@@ -67,7 +67,7 @@ class modifyController extends Controller
         foreach ($newSkills as $skillStudent){
             $student->addSkill($skillStudent);
         }
-        
+
         $em->flush();
     }
 }
