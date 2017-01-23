@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class modifyController extends Controller
 {
     /**
-     * @Route("student/edit/{id}", name="student", defaults = {"id" = null})
+     * @Route("/student/edit/{id}", name="student", defaults = {"id" = null})
      */
     public function editStudentAction(Request $request)
     {
