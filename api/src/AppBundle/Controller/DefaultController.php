@@ -143,12 +143,13 @@ class DefaultController extends Controller
 
 
     /**
-     * @Route("listing/detailStudent/{id}", name="listing/detailsStudent", defaults = {"id" = null})
+     * @Route("listing/detailStudent/{id}", name="listing/detailStudent", defaults = {"id" = null})
      */
     public function formAction(Request $request)
     {
 //        On récupère le GET envoyé dans l'url
         $id = $request->get('id');
+
 
         if ($id != null) {
 //              On récupère le repository Student
