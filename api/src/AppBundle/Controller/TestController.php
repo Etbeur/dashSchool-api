@@ -7,6 +7,7 @@ use AppBundle\Entity\Skill;
 use AppBundle\Entity\Student;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -18,11 +19,12 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class TestController extends Controller
 {
     /**
-     * @Route("testForm/{param}", name="testForm")
+     * @Route("/testForm", name="testForm")
      */
     public function testForm (Request $request){
+
+//        creation du formulaire
         $form = $this->createFormBuilder()
-//            $form->handleRequest($request)
 
             ->add('firstname', TextType::class)
             ->add('lastname', TextType::class)
@@ -36,15 +38,64 @@ class TestController extends Controller
             ->add('linkedIn', TextType::class, ['required' => false])
             ->add('personalProject', TextType::class, ['required' => false])
             ->add('photo', TextType::class, ['required' => false])
+            ->add('php', CheckboxType::class , ['required' => false])
+            ->add('html', CheckboxType::class,['required' => false] )
+            ->add('javascript', CheckboxType::class,['required' => false] )
+            ->add('angular2', CheckboxType::class,['required' => false] )
             ->add('valider', SubmitType::class)
             ->getForm()
         ;
+        $form->handleRequest($request);
 
-    return $this ->render('default/test.html.twig', [
-        'name'=>$request->get('param'),
+        if ($form->isSubmitted() && $form->isValid()) {
+            // $form->getData() holds the submitted values
+            // but, the original `$task` variable has also been updated
+            $task = $form->getData();
+            $firstname = $form["firstname"]->getData();
+            $lastname = $form["lastname"]->getData();
+            $gender = $form["gender"]->getData();
+            $birthDate = $form["birthDate"]->getData();
+            $address = $form["address"]->getData();
+            $phone = $form["phone"]->getData();
+            $email = $form["email"]->getData();
+            $emergencyContact = $form["emergencyContact"]->getData();
+            $github = $form["github"]->getData();
+            $linkedIn = $form["linkedIn"]->getData();
+            $personalProject = $form["personalProject"]->getData();
+            $photo = $form["photo"]->getData();
+
+
+            //      On cree un nouvel eleve
+            $student = new Student();
+            $student->setFirstname($firstname);
+            $student->setLastname($lastname);
+            $student->setGender($gender);
+            $student->setBirthDate($birthDate);
+            $student->setAddress($address);
+            $student->setPhone($phone);
+            $student->setEmail($email);
+            $student->setEmergencyContact($emergencyContact);
+            $student->setGithub($github);
+            $student->setLinkedIn($linkedIn);
+            $student->setPersonalProject($personalProject);
+            $student->setPhoto($photo);
+//            foreach ($newSkills as $skillStudent){
+//                $student->addSkill($skillStudent);
+//            }
+
+            //        On récupère l'Entity manager
+            $em = $this->getDoctrine()->getManager();
+
+            $em->persist($student);
+            $em->flush();
+        }
+
+
+
+
+
+        return $this ->render('default/test.html.twig', [
         'formTest'=>$form->createView(),
-        'test'=>$request->request->all()
-
         ]);
 }
 
