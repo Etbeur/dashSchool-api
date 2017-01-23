@@ -1,5 +1,6 @@
 <?php
 namespace AppBundle\Controller;
+
 use AppBundle\AppBundle;
 use AppBundle\Entity\user;
 use AppBundle\Entity\Skill;
@@ -21,38 +22,41 @@ class DefaultController extends Controller
         $dataForm = file_get_contents("php://input");
         $data = json_decode($dataForm);
 
-//        On attribue le login et le password récupéré au $_POST pour faire les vérifications
-        $_POST['login'] = $data->login;
-        $_POST['password'] = $data->password;
+//        On attribue le login et le password récupéré en vérifiant leur existance
+        if (isset($data->login) && isset($data->password))
+        {
+            $login = $data->login;
+            $password = $data->password;
 
-//        Si les valeurs existent
-        if (isset($_POST['login']) && isset($_POST['password'])) {
-            $login = $_POST['login'];
-            $password = $_POST['password'];
-
-//            Récupération des données correspondants au login de connexion si correspondance
+//            Récupération dans la DB des données de connexion
             $identifiants = $this->getDoctrine()
                 ->getRepository('AppBundle:user')
                 ->findAll();
 
             /* @var $identifiant user */
-//            Si identifiants n'existent pas dans la table
-            if (!$identifiants) {
+//            Si identifiants n'existe pas dans la table
+            if (!$identifiants)
+            {
                 throw $this->createNotFoundException(
                     'No login found for ' . $identifiants
                 );
             }
+
 //            On crée un tableau pour stocker les infos de la table
             $infosUser = [];
-            foreach ($identifiants as $identifiant) {
-                if ($identifiant->getLogin() == $login & $identifiant->getPassword() == $password) {
+            foreach ($identifiants as $identifiant)
+            {
+                if ($identifiant->getLogin() == $login & $identifiant->getPassword() == $password)
+                {
                     $infosUser = [
                         'login' => $identifiant->getLogin(),
                         'id' => $identifiant->getId(),
                         'firstname' => $identifiant->getFirstname(),
                         'lastname' => $identifiant->getlastname()
                     ];
-                } else {
+                }
+                else
+                {
                     $false = array
                     (
                         'responseServer' => "utilisateur non reconnu",
@@ -61,7 +65,9 @@ class DefaultController extends Controller
                 }
             }
             return new JsonResponse($infosUser);
-        } else {
+        }
+        else
+        {
             $false = array('aucune reponse possible' => 'data non valide');
             return new JsonResponse($false);
         }
@@ -74,12 +80,28 @@ class DefaultController extends Controller
      */
     public function listingAction(Request $request)
     {
+        //        Récuperation de toutes les infos de la table "skill"
+        $dataSkill = $this->getDoctrine()
+            ->getRepository('AppBundle:Skill')
+            ->findAll();
+
+//        Récupération des compétences
+        $allSkills = [];
+        foreach ($dataSkill as $skill)
+        {
+//            On définit les données que l'on va renvoyer en JSON au front
+            $allSkills[] = [
+                'id' => $skill->getId(),
+                'name' => $skill->getName(),
+            ];
+        }
+
 //        Récuperation de toutes les infos de la table "student"
         $dataStudent = $this->getDoctrine()
             ->getRepository('AppBundle:Student')
             ->findAll();
 
-//        Récupération des infos pour chaque élève -
+//        Récupération des infos pour chaque élève
 
 //      On créé un tab vide dans lequel sera pushé chaque élève
         $infoStudent = [];
@@ -101,7 +123,7 @@ class DefaultController extends Controller
                 'id' => $student->getId(),
                 'firstname' => $student->getFirstname(),
                 'lastname' => $student->getLastname(),
-                'gender' => $student ->getGender(),
+                'gender' => $student->getGender(),
                 'birthDate' => $student->getBirthDate(),
                 'address' => $student->getAddress(),
                 'phone' => $student->getPhone(),
@@ -111,10 +133,12 @@ class DefaultController extends Controller
                 'linkedIn' => $student->getLinkedIn(),
                 'personalProject' => $student->getPersonalProject(),
                 'photo' => $student->getPhoto(),
-                'skill' => $skills
+                'skill' => $skills,
+                'availableSkills' => $allSkills
             ];
         }
         return new JsonResponse($infoStudent);
+
     }
 
 
@@ -137,7 +161,7 @@ class DefaultController extends Controller
 
 //            Création d'un tableau dans lequel on mettra chaque compétence au fur et à mesure
             $totalSkills = [];
-            for($i = 0; $i < count($infoSkill); $i ++){
+            for ($i = 0; $i < count($infoSkill); $i++) {
                 $oneSkill = $infoSkill[$i]->getName();
                 array_push($totalSkills, $oneSkill);
             }
@@ -159,11 +183,11 @@ class DefaultController extends Controller
                     'personalProject' => $dataStudent->getPersonalProject(),
                     'photo' => $dataStudent->getPhoto(),
 //                    On ajoute le tableau des compétences à la fiche de l'élève
-                    'skills' => $totalSkills
-                ];
+                'skills' => $totalSkills
+            ];
 //            On retourne sous forme de JSON le tableau avec toutes les informations
             return new JsonResponse($infoStudent);
-        }else{
+        } else {
             $false = array('aucun ID passe en parametre' => 'Pas deleve selectionne');
             return new JsonResponse($false);
         }

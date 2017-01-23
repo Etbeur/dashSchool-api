@@ -194,6 +194,4 @@ class TestController extends Controller
 //        On renvoie les données sous forme de JSON pour qu'elles soient récupérées par le front
         return new JsonResponse($infoStudent);
     }
-
-
 }
