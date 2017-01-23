@@ -144,6 +144,7 @@ class DefaultController extends Controller
 //            On crée la fiche élève avec tous les renseignements le concernant
             $infoStudent =
                 [
+                    'id' => $dataStudent->getId(),
                     'firstname' => $dataStudent->getFirstname(),
                     'lastname' => $dataStudent->getLastname(),
                     'birthDate' => $dataStudent->getBirthDate(),
