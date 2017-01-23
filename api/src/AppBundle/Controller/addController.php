@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class addController extends Controller
 {
     /**
-     * @Route("student/add", name="addStudent")
+     * @Route("/student/add", name="addStudent")
      */
     public function addStudentAction(Request $request)
     {
@@ -59,8 +59,11 @@ class addController extends Controller
             $student->addSkill($skillStudent);
         }
 
-        $this->getDoctrine()->getManager()->persist($student);
-        $this->getDoctrine()->getManager()->flush();
+//        On récupère l'Entity manager
+        $em = $this->getDoctrine()->getManager();
+
+        $em->persist($student);
+        $em->flush();
 
 
     }
