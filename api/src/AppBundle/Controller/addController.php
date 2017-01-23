@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class addController extends Controller
 {
     /**
-     * @Route("/addStudent", name="addStudent")
+     * @Route("student/add", name="addStudent")
      */
     public function addStudentAction(Request $request)
     {
@@ -58,6 +58,9 @@ class addController extends Controller
         foreach ($newSkills as $skillStudent){
             $student->addSkill($skillStudent);
         }
+
+        $this->getDoctrine()->getManager()->persist($student);
+        $this->getDoctrine()->getManager()->flush();
 
 
     }
