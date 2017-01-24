@@ -30,7 +30,7 @@ class DefaultController extends Controller
 
             //            Récupération dans la DB des données de connexion
             $identifiants = $this->getDoctrine()
-                ->getRepository('AppBundle:User')
+                ->getRepository('AppBundle:user')
                 ->findAll();
 
             /* @var $identifiant user */
