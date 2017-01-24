@@ -73,15 +73,13 @@ class CrudController extends Controller
         $em->persist($student);
         $em->flush();
 
-        if ($student) {
-            return new JsonResponse(array("Response" => "true"));
-        } else {
-            return new JsonResponse(array("Response" => "false"));
-        }
+        //        Une fois l'ajout effectué on renvoie si c'est ok ou pas
+        return $student ? new JsonResponse(array("Response" => "true")) : new JsonResponse(array("Response" => "false"));
     }
 
     /**
      * @Route("/student/delete/{id}" , name="deleteStudent")
+     * Suppression d'un student
      */
     public function delStudentAction(Request $request)
     {
@@ -98,14 +96,7 @@ class CrudController extends Controller
         $em->remove($studentDelete);
         $em->flush();
 
-        //        Une fois effacement terminé, on verifie si $student existe encore ou pas
-        if ($studentDelete) {
-            return new JsonResponse(array('response' => "effacement non valide, eleve present"));
-
-        } else {
-            return new JsonResponse(array('response' => "eleve delete"));
-        }
-
-
+        //        Une fois effacement terminé, on verifie si $studentDelete existe encore ou pas dans l'em
+        return ($em->contains($studentDelete)) ? new JsonResponse(array('response' => "student not delete")) : new JsonResponse(array('response' => "student delete"));
     }
 }
