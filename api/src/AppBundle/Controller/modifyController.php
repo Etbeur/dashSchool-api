@@ -32,6 +32,7 @@ class modifyController extends Controller
 //        On récupère le repository Student
         $student = $em->getRepository('AppBundle:Student')->findOneBy(array('id' => $id));
 
+
 //        On associe chaque variable aux données envoyées par le form
         function missingInput($input){
             new JsonResponse("Le champ ".$input." est manquant");
@@ -65,6 +66,7 @@ class modifyController extends Controller
         $student->setPersonalProject($personalProject);
         $student->setPhoto($photo);
         foreach ($newSkills as $skillStudent){
+
             $student->addSkill($skillStudent);
         }
 

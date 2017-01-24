@@ -411,7 +411,7 @@ class Student
      *
      * @return Student
      */
-    public function addSkill(\AppBundle\Entity\skill $skill)
+    public function addSkill(\AppBundle\Entity\Skill $skill)
     {
         $this->skills[] = $skill;
 
@@ -423,7 +423,7 @@ class Student
      *
      * @param \AppBundle\Entity\skill $skill
      */
-    public function removeSkill(\AppBundle\Entity\skill $skill)
+    public function removeSkill(\AppBundle\Entity\Skill $skill)
     {
         $this->skills->removeElement($skill);
     }

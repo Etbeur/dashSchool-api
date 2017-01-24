@@ -22,9 +22,9 @@ class TestController extends Controller
      * @Route("/testForm", name="testForm")
      */
     public function testForm (Request $request){
-
-//        creation du formulaire
         $form = $this->createFormBuilder()
+
+
 
             ->add('firstname', TextType::class)
             ->add('lastname', TextType::class)
@@ -42,11 +42,12 @@ class TestController extends Controller
             ->add('html', CheckboxType::class,['required' => false] )
             ->add('javascript', CheckboxType::class,['required' => false] )
             ->add('angular2', CheckboxType::class,['required' => false] )
+            ->add('testId', TextType::class)
             ->add('valider', SubmitType::class)
+
             ->getForm()
         ;
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             // $form->getData() holds the submitted values
             // but, the original `$task` variable has also been updated
@@ -63,6 +64,13 @@ class TestController extends Controller
             $linkedIn = $form["linkedIn"]->getData();
             $personalProject = $form["personalProject"]->getData();
             $photo = $form["photo"]->getData();
+            $idTest = $form["testId"]->getData();
+            //        On récupère l'Entity manager
+            $em = $this->getDoctrine()->getManager();
+            $skill = $em->getRepository('AppBundle:Skill')->findOneBy(array('id'=>$idTest));
+
+
+            dump($task);
 
 
             //      On cree un nouvel eleve
@@ -79,25 +87,40 @@ class TestController extends Controller
             $student->setLinkedIn($linkedIn);
             $student->setPersonalProject($personalProject);
             $student->setPhoto($photo);
+            $student->addSkill($skill);
 //            foreach ($newSkills as $skillStudent){
 //                $student->addSkill($skillStudent);
 //            }
 
-            //        On récupère l'Entity manager
-            $em = $this->getDoctrine()->getManager();
+
 
             $em->persist($student);
             $em->flush();
         }
-
-
-
-
-
         return $this ->render('default/test.html.twig', [
         'formTest'=>$form->createView(),
         ]);
 }
+
+    /**
+     * @Route("/testDelete/{id}", name="testDelete")
+     */
+    public function testDelete (Request $request){
+
+        $id = $request->get('id');
+        //        On crée l'entity manager
+        $em = $this->getDoctrine()->getManager();
+        $student = $em->getRepository('AppBundle:Student')->findOneBy(array('id'=>$id));
+        //        On efface la ligne correspondant à l'id
+        $em->remove($student);
+        $em->flush();
+
+        return new Response('ok bobby');
+
+
+    }
+
+
 
 
 }

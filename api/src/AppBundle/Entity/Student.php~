@@ -411,7 +411,7 @@ class Student
      *
      * @return Student
      */
-    public function addSkill(\AppBundle\Entity\skill $skill)
+    public function addSkill(\AppBundle\Entity\Skill $skill)
     {
         $this->skills[] = $skill;
 
@@ -423,7 +423,7 @@ class Student
      *
      * @param \AppBundle\Entity\skill $skill
      */
-    public function removeSkill(\AppBundle\Entity\skill $skill)
+    public function removeSkill(\AppBundle\Entity\Skill $skill)
     {
         $this->skills->removeElement($skill);
     }
@@ -436,5 +436,29 @@ class Student
     public function getSkills()
     {
         return $this->skills;
+    }
+
+    /**
+     * Set gender
+     *
+     * @param string $gender
+     *
+     * @return Student
+     */
+    public function setGender($gender)
+    {
+        $this->gender = $gender;
+
+        return $this;
+    }
+
+    /**
+     * Get gender
+     *
+     * @return string
+     */
+    public function getGender()
+    {
+        return $this->gender;
     }
 }

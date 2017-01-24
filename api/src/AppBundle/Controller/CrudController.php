@@ -1,4 +1,5 @@
 <?php
+
 namespace AppBundle\Controller;
 
 use AppBundle\AppBundle;
@@ -11,10 +12,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class addController extends Controller
+
+class CrudController extends Controller
 {
     /**
      * @Route("/student/add", name="addStudent")
+     * Création d'un Student
      */
     public function addStudentAction(Request $request)
     {
@@ -22,9 +25,13 @@ class addController extends Controller
         $dataForm = file_get_contents("php://input");
         $data = json_decode($dataForm);
 
+        //        On récupère l'Entity manager
+        $em = $this->getDoctrine()->getManager();
+
         //        On associe chaque variable aux données envoyées par le form
-        function missingInput($input){
-            new JsonResponse("Le champ ".$input." est manquant");
+        function missingInput($input)
+        {
+            new JsonResponse("Le champ " . $input . " est manquant");
         }
 
         $firstname = (isset($data->firstname)) ? $data->firstname : missingInput('firstname');
@@ -55,21 +62,48 @@ class addController extends Controller
         $student->setLinkedIn($linkedIn);
         $student->setPersonalProject($personalProject);
         $student->setPhoto($photo);
-        foreach ($newSkills as $skillStudent){
-            $student->addSkill($skillStudent);
+
+        //        Pour chaque id de competence récupéré, on va chercher la compétence dans la table skill et on l'ajoute à l'eleve
+        foreach ($newSkills as $skillStudent) {
+            $skill = $em->getRepository('AppBundle:Skill')->findOneBy(array('id' => $skillStudent));
+            $student->addSkill($skill);
         }
 
-        //        On récupère l'Entity manager
-        $em = $this->getDoctrine()->getManager();
-
+        //        On ajoute à la DB
         $em->persist($student);
         $em->flush();
 
-        if($student)
-        {
-            return new JsonResponse(array("creation ok" => "le nouvel eleve a bien ete cree"));
+        if ($student) {
+            return new JsonResponse(array("Response" => "true"));
         } else {
-            return new JsonResponse(array("erreur creation" => "Erreur de creation"));
+            return new JsonResponse(array("Response" => "false"));
+        }
+    }
+
+    /**
+     * @Route("/student/delete/{id}" , name="deleteStudent")
+     */
+    public function delStudentAction(Request $request)
+    {
+        //        On recupère l'id
+        $id = $request->get('id');
+
+        //        On crée l'entity manager
+        $em = $this->getDoctrine()->getManager();
+
+        //        On récupère l'éleve correspondant à l'id
+        $studentDelete = $em->getRepository('AppBundle:Student')->findOneBy(array('id' => $id));
+
+        //        On efface la ligne correspondant à l'id
+        $em->remove($studentDelete);
+        $em->flush();
+
+        //        Une fois effacement terminé, on verifie si $student existe encore ou pas
+        if ($studentDelete) {
+            return new JsonResponse(array('response' => "effacement non valide, eleve present"));
+
+        } else {
+            return new JsonResponse(array('response' => "eleve delete"));
         }
 
 
