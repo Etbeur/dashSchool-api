@@ -110,7 +110,7 @@ class DefaultController extends Controller
                 array_push($skills, $test);
             }
 
-            //          On définit les données que l'on va renvoyer en JSON au front
+            //         On définit les données que l'on va renvoyer en JSON au front
             $infoStudent[] = [
                 'id' => $student->getId(),
                 'firstname' => $student->getFirstname(),
