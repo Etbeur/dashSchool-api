@@ -34,7 +34,7 @@ class Skill
      *
      * Inverse Side
      *
-     * @ORM\ManyToMany(targetEntity="student", mappedBy="skills", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="Student", mappedBy="skills", cascade={"persist"})
      */
 
     private $students;
