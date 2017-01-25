@@ -63,34 +63,34 @@ class modifyController extends Controller
             $student->setLastname($lastname);
 
         if (isset($gender) && ($gender) != null)
-            $student->setgender($gender);
+            $student->setGender($gender);
 
         if (isset($birthDate) && ($data->birthDate) != null)
-            $student->setbirthDate(new \DateTime($birthDate));
+            $student->setBirthDate(new \DateTime($birthDate));
 
         if (isset($address) && ($address) != null)
-            $student->setaddress($address);
+            $student->setAddress($address);
 
         if (isset($phone) && ($phone) != null)
-            $student->setphone($data->phone);
+            $student->setPhone($data->phone);
 
         if (isset($email) && ($email) != null)
-            $student->setemail($email);
+            $student->setEmail($email);
 
         if (isset($emergencyContact) && ($emergencyContact) != null)
-            $student->setemergencyContact($emergencyContact);
+            $student->setEmergencyContact($emergencyContact);
 
         if (isset($github) && ($github) != null)
-            $student->setgithub($github);
+            $student->setGithub($github);
 
         if (isset($linkedIn) && ($linkedIn) != null)
-            $student->setlinkedin($linkedIn);
+            $student->setLinkedin($linkedIn);
 
         if (isset($personalProject) && ($personalProject) != null)
-            $student->setpersonalProject($personalProject);
+            $student->setPersonalProject($personalProject);
 
         if (isset($photo) && ($photo) != null)
-            $student->setphoto($photo);
+            $student->setPhoto($photo);
 
 //        //        Pour chaque id de competence récupéré, on va chercher la compétence dans la table skill et on l'ajoute à l'eleve
 //        foreach ($newSkills as $skillStudent) {
