@@ -7,6 +7,7 @@ use AppBundle\Entity\Skill;
 use AppBundle\Entity\Student;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -29,7 +30,7 @@ class TestController extends Controller
             ->add('firstname', TextType::class)
             ->add('lastname', TextType::class)
             ->add('gender', TextType::class)
-            ->add('birthDate', DateType::class)
+            ->add('birthDate', BirthdayType::class)
             ->add('address', TextType::class)
             ->add('phone', TextType::class)
             ->add('email', TextType::class)
