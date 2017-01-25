@@ -125,7 +125,7 @@ class DefaultController extends Controller
                 'linkedIn' => $student->getLinkedIn(),
                 'personalProject' => $student->getPersonalProject(),
                 'photo' => $student->getPhoto(),
-                'skill' => $skills,
+                'skills' => $skills,
                 'availableSkills' => $allSkills
             ];
         }
