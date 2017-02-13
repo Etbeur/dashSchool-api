@@ -8,13 +8,13 @@
 
 
 
-##Application web qui permet de facilité la gestion de classe ou de groupe.
-* Une partie principale permettant d'avoir un aperçu général. 
+##Application web qui permet de faciliter la gestion de classe ou de groupe.
+* Page principale permettant d'avoir une vue générale de la classe ou du groupe avec un espace recherche(par nom). 
 
 * Un onglet détail permettant d'avoir un aperçu:
-	* Des informations personnelles(nom, prenom, date de naissance, adresse, lien divers...).
-	* Des compétences, possibilité d'en ajouter et d'en supprimer.
-	* La possibilité de modifier toutes les informations personnelle.
+	* Des informations personnelles -> nom, prenom, date de naissance, adresse, liens divers...
+	* Des compétences -> langages et logiciels utilisés par l'élève
+	* Modèle CRUD pour -> les données personnelles(certaines sont obligatoires) et les compétences.
 
 * Un onglet permettant de supprimer un élève.
 * un autre onglet permettant la création d'un nouvel élève.
