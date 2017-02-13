@@ -1,6 +1,12 @@
 #DashSchool - v2.2 beta
 
-Application web qui permet de facilité la gestion de classe ou de groupe. Projet en groupe ([Myriam Niaré-Guilloux, Développeuse Front-End](https://github.com/myrNG), [Solenn Baer, Développeuse Back-End](https://github.com/simplon-solennB), ([Raphaël Di Rago, Développeur Front-End](https://github.com/dirago),[Romain Etheve, Développeur Back-End](https://github.com/etbeur). 
+Application web qui permet de facilité la gestion de classe ou de groupe.
+
+Equipe:
+ *[Myriam Niaré-Guilloux, Développeuse Front-End](https://github.com/myrNG)
+ *[Solenn Baer, Développeuse Back-End](https://github.com/simplon-solennB)
+ *[Raphaël Di Rago, Développeur Front-End](https://github.com/dirago)
+ *[Romain Etheve, Développeur Back-End](https://github.com/etbeur). 
 
 * Une partie principale permettant d'avoir un aperçu général. 
 
