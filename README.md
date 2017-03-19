@@ -1,6 +1,6 @@
-#DashSchool - v2.2 beta
+# DashSchool - v2.2 beta
 
-##Equipe:
+## Equipe:
  * [Myriam Niaré-Guilloux, Développeuse Front-End](https://github.com/myrNG).
  * [Solenn Baer, Développeuse Back-End](https://github.com/simplon-solennB).
  * [Raphaël Di Rago, Développeur Front-End](https://github.com/dirago).
@@ -8,7 +8,7 @@
 
 
 
-##Application web qui permet de faciliter la gestion de classe ou de groupe.
+## Application web qui permet de faciliter la gestion de classe ou de groupe.
 * Page principale permettant d'avoir une vue générale de la classe ou du groupe avec un espace recherche(par nom). 
 
 * Un onglet détail permettant d'avoir un aperçu:
@@ -20,5 +20,5 @@
 * un autre onglet permettant la création d'un nouvel élève.
 
 
-##Techno utilisées: Angular2 pour les Front et api en Symfony3(avec doctrine pour gérer la DB) pour les Back.
+## Techno utilisées: Angular2 pour les Front et api en Symfony3(avec doctrine pour gérer la DB) pour les Back.
 
